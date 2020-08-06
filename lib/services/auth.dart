@@ -4,20 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-User _userFromFirebaseUser( FirebaseUser user){
-   return user != null ? User(uid: user.uid) : null;
-}
- 
- 
+  User _userFromFirebaseUser(FirebaseUser user) {
+    return user != null ? User(uid: user.uid) : null;
+  }
 
-// auth change user stream 
+// auth change user stream
 //everytime user sign in or sign out identify
-Stream<User> get user{
-  return _auth.onAuthStateChanged
- .map(_userFromFirebaseUser);
-
-}
-
+  Stream<User> get user {
+    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  }
 
 //sign in anon
   Future signInAnon() async {
@@ -36,5 +31,12 @@ Stream<User> get user{
 // register with email and password
 
 //sign out
-
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 }
